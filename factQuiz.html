@@ -29,15 +29,20 @@
   </main>
   
     <div class="plate">
-  <main class="row border">
-        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start"><h2>Timer: <span id="time-left"></span></h2>
-        </div>
+
+    
+  <div class="quiz-box">
+      
+    
+    <main class="row border">
+  <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start"><h2>Timer: <span id="time-left"></span></h2>
+  </div>
   <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end"><h1>Question <span class="question-number">00</span></h1>
   </div>
   </main>
   <main class="row border">
-      <div class="col-sm-12 col-md-12 col-lg-12 d-flex  answers-indicator">
-     
+  <div class="col-sm-12 col-md-12 col-lg-12 d-flex  answers-indicator">
+  
   </main>
   
   <main class="row border">
@@ -55,8 +60,71 @@
   <div class="col-sm-12 col-md-8 col-lg-8 d-flex justify-content-start">
   <div class="list-group qContainer"></div>
   </div>
-</main>
+  </main>
+</div>
 
+<div class="resultbox hide">
+
+
+  <div class="row border">
+
+      <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+          <h2>Quiz Results</h2>
+      </div>
+  </div>
+    <div class="row border">
+      <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+          <h2>Total Questions</h2>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+          <h2><span class="total-questions">00</span></h2>
+      </div>
+    </div>
+    <div class="row border">
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+            <h2>Attempt</h2>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+            <h2><span class="total-attempt">00</span></h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+            <h2>Correct</h2>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+            <h2><span class="total-correct">00</span></h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+            <h2>Wrong</h2>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+            <h2><span class="total-wrong">00</span></h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+            <h2>Percentage</h2>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+            <h2><span class="percentage">00</span></h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+            <h2>Your Total Score</h2>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-start">
+            <h2><span class="total-score">00</span></h2>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+    <button type="button" class="btn" onclick="tryAgainQuiz()">Try Again</button>
+    <button type="button" class="btn" onclick="goToHighscore()">Go to Highscore</button>
+    </div>
+</div>
 
  <main class="border row">
      <div class="col-sm-12 col-md-4 col-lg-4 d-flex justify-content-start">
@@ -66,7 +134,8 @@
      <div class="col-sm-12 col-md-8 col-lg-8 d-flex justify-content-end">
           <button type="button" class="btn" onclick="next()">Next</button>
      </div>
- </main>
+ </main>  
+
 
 
 </div>  

@@ -6,8 +6,10 @@
 const questionNumber = document.querySelector(".question-number");
 const questionText = document.querySelector(".qText");
 const optionContainer = document.querySelector(".qContainer");
-const answersIndicatorContainer = document.querySelector(".answers-indicator")
-
+const answersIndicatorContainer = document.querySelector(".answers-indicator");
+const qCountQuiz = parseInt(localStorage.getItem('quizLen'));
+const quizBox = document.querySelector(".quiz-box");
+const resultBox= document.querySelector(".resultbox");
 
 // define variables for javascript functions to use
 let questionCounter = 0;  //variable to hold count of how many questions we have
@@ -21,7 +23,7 @@ let attemps = 0;
 // the push method adds a new item to an array
 function setAvailableQuestions(){
     const totalQuestion = quiz.length;
-    for (let i=0; i<totalQuestion; i++){
+    for (let i=0; i<qCountQuiz; i++){
 
         availableQuestion.push(quiz[i])
 
@@ -36,7 +38,7 @@ function setAvailableQuestions(){
 // set question number, question text and answer options to html
 function getNewQuestion(){
     // set total number of questions 
-    questionNumber.innerHTML = (questionCounter + 1)  + " of " + quiz.length;
+    questionNumber.innerHTML = (questionCounter + 1)  + " of " + qCountQuiz;
 
     //set quesetion text
     //get random question
@@ -156,7 +158,7 @@ function updateAnswerIndicator(markType){
 }
 
 function next(){
-    if(questionCounter === quiz.length){
+    if(questionCounter === qCountQuiz){
         console.log("quiz over");
         quizOver();
 
@@ -169,25 +171,73 @@ function next(){
 
 
 function quizOver(){
+     //hide quiz box
+     
+    //  window.location.href="highscore.html";
+     quizBox.classList.add("hide");
+     resultBox.classList.remove("hide");
+     quizResult();
+
+}
+
+function quizResult(){
+
+resultBox.querySelector(".total-questions").innerHTML = qCountQuiz;
+resultBox.querySelector(".total-attempt").innerHTML = attemps;
+resultBox.querySelector(".total-correct").innerHTML = correctAnswers;
+resultBox.querySelector(".total-wrong").innerHTML = attemps - correctAnswers;
+const percentage = (correctAnswers/qCountQuiz)*100;
+resultBox.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
+resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + qCountQuiz;
 
 
 }
 
-
-
-
-localStorage.setItem("q", "5");
-
-
-var radios = document.getElementsByName("options"); // list of radio buttons
-var val = localStorage.getItem('options'); // local storage value
-for(var i=0;i<radios.length;i++){
-  if(radios[i].value == val){
-      radios[i].checked = true; // marking the required radio as checked
-  }
+function resetQuiz(){
+    // reset variables for javascript functions to use
+    correctAnswers = 0;
+    attemps = 0;
+    questionCounter = 0;  //variable to hold count of how many questions we have
 }
 
-console.log(localStorage)
+function tryAgainQuiz(){
+   quizBox.classList.remove("hide");
+     resultBox.classList.add("hide");
+    resetQuiz();
+    startQuiz();
+}
+
+const startBtn = document.querySelector('#startQuiz');
+
+// startButton.onclick = function () {
+
+// const radioSelection = document.querySelector('input[name="options"]:checked'.value);
+
+// console.log(radioSelection);
+// }
+
+
+ function startQuiz() {  
+        
+            var checkRadio = document.querySelector('input[name="options"]:checked').value; 
+               
+            if(checkRadio != null) { 
+                const qCount = checkRadio.value;
+                localStorage.setItem("quizLen", checkRadio);
+                
+
+                console.log(checkRadio);
+            } 
+            else { 
+                console.log("No one selected"); 
+            } 
+        } 
+
+
+// startBtn.addEventListener("click", startQuiz())
+
+
+
 
 
 
@@ -202,6 +252,7 @@ setAvailableQuestions();
 getNewQuestion();
 // to create indicators of answers
 answersIndicator();
+
 }
 
 // var startButton = document.getElementById("starQuiz");
