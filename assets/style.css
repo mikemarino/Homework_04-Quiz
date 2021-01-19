@@ -1,3 +1,93 @@
- body {
-     margin: 1% 15% 3% 15%;
+ .simpQuiz{
+     margin: 1% 10% 3% 10%;
+     background-color: #fed90f;
  }
+
+ .qPic{
+    width: 100%;
+    object-fit: cover;
+    height: 300px;
+    margin: 20px 20px 20px 0px;
+    padding: 20px 20px 20px 20px;
+
+ }
+
+ .plate {
+     border: solid;
+     height: fit-content;
+     border-radius: 25px;
+     margin-top: 20px;
+     padding: 20px 20px 20px 20px;
+     background-color: white;
+ }
+
+ .qText {
+     font-size:larger;
+     font-weight: bold;
+     padding: 20px 0px 20px 0px;
+ }
+
+
+ .qContainer .option {
+
+     padding: 5px 15px 5px 15px;
+     margin: 10px 0px;
+     background-color: violet;
+     opacity: 0;
+     animation: fadeIn 0.3s ease forwards;
+     position: relative;
+     overflow: hidden;
+ }
+
+
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+/* fix this to work */
+
+/* .qContainer .option.correct::before {
+    content: '';
+    position: absolute;
+    margin: 10px 0px;
+    background-color:green;
+} */
+
+.qContainer .option.correct {
+        /* margin: 10px 0px; */
+    color: white;
+    background-color:green;
+}
+
+.qContainer .option.wrong {
+    /* margin: 10px 0px; */
+    color: white;
+    background-color: red;
+}
+
+.qContainer .option.already-answered {
+    /* margin: 10px 0px; */
+    pointer-events: none;
+}
+
+ .btn {
+     
+     margin: 10px 0px;
+     background-color: violet;
+ }
+
+ .answers-indicator div.correct {
+
+    width: 3%;
+    border-bottom: solid green;
+ }
+  .answers-indicator div.wrong {
+
+      width: 3%;
+      border-bottom: solid red;
+  }
