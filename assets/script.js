@@ -11,6 +11,9 @@ const qCountQuiz = parseInt(localStorage.getItem('quizLen'));
 const quizBox = document.querySelector(".quiz-box");
 const resultBox= document.querySelector(".resultbox");
 const highScoreBox= document.querySelector(".high-score-box");
+const nextBox= document.querySelector(".next-Box");
+// const correctIndicator = document.querySelector(".correct");
+// const wrongIndicator = document.querySelector(".wrong");
 
 
 // define variables for javascript functions to use
@@ -178,6 +181,9 @@ function quizOver(){
     //  window.location.href="highscore.html";
      quizBox.classList.add("hide");
      resultBox.classList.remove("hide");
+     nextBox.classList.add("hide2");
+    //  correctIndicator.classList.replace("correct","");
+    //  wrongIndicator.classList.remove("wrong");
      quizResult();
 
 }
@@ -191,17 +197,18 @@ function goToHighscore(){
      resultBox.classList.add("hide");
      highScoreBox.classList.remove("hide");
 
-
+     storeResults()
       var scores = JSON.parse(localStorage.getItem("user"));
-
+        
       console.log(scores);
+      quizUser.innerHTML = scores.init;
       quizUserScore.innerHTML = scores.ctot;
 }
 
 
 function quizResult(){
 
-let userInitials = ""
+// var userInitials = resultBox.querySelector("#initials")
 
 resultBox.querySelector(".total-questions").innerHTML = qCountQuiz;
 resultBox.querySelector(".total-attempt").innerHTML = attemps;
@@ -210,20 +217,25 @@ resultBox.querySelector(".total-wrong").innerHTML = attemps - correctAnswers;
 const percentage = (correctAnswers/qCountQuiz)*100;
 resultBox.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
 resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + qCountQuiz;
-resultBox.querySelector("#initials").value = userInitials;
+// resultBox.querySelector("#initials").value = userInitials;
 
-//!!!!!!!!!!!!!!! function runs before initials are entered.... 
+}
 
+var userInitials = resultBox.querySelector("#initials");
 
+function storeResults(){
   // create user object from submission
-  var user = {
+const percentage = (correctAnswers/qCountQuiz)*100;
+
+    var userInitials = resultBox.querySelector("#initials");
+    var user = {
         qtot: qCountQuiz,
         atot: attemps,
         ctot: correctAnswers,
         wtot: attemps - correctAnswers,
         perc: percentage.toFixed(2) + "%",
         stot: correctAnswers + " / " + qCountQuiz,
-        init: userInitials
+        init: userInitials.value
        
     // firstName: firstNameInput.value.trim(),
     // lastName: lastNameInput.value.trim(),
@@ -246,6 +258,8 @@ function resetQuiz(){
 function tryAgainQuiz(){
    quizBox.classList.remove("hide");
      resultBox.classList.add("hide");
+     highScoreBox.classList.add("hide");
+     nextBox.classList.remove("hide2")
     resetQuiz();
     startQuiz();
 }
@@ -259,27 +273,30 @@ const startBtn = document.querySelector('#startQuiz');
 // console.log(radioSelection);
 // }
 
-function getQCount (){
+function getQCount(){
 
      var checkRadio = document.querySelector('input[name="options"]:checked').value; 
-               
-            if(checkRadio != null) { 
-                const qCount = checkRadio.value;
-                localStorage.setItem("quizLen", checkRadio);
-                
+          
 
-                console.log(checkRadio);
-            } 
-            else { 
-                console.log("No one selected"); 
-            } 
+        if(checkRadio != null) { 
+            const qCount = checkRadio.value;
+            localStorage.setItem("quizLen", checkRadio);
+            console.log(checkRadio);
         } 
+        else { 
+            console.log("No one selected"); 
+        }         
+    }
+
 
 
 //############# STARTING POINT ################
 
- function startQuiz() {  
+ function startQuiz() { 
+
         
+        getQCount();
+
         setAvailableQuestions();
         // second we will call getnewquestion function
         getNewQuestion();
@@ -297,12 +314,33 @@ function getQCount (){
 window.onload = function()
 
 {
+   
     //First set all questions in available question array
     setAvailableQuestions();
     // second we will call getnewquestion function
     getNewQuestion();
     // to create indicators of answers
     answersIndicator();
+
+//################# TIMER ########################
+    
+ const timeLeftDisplay = document.querySelector('#time-left');
+ let timeLeft = 60;
+
+ function countDown(){
+
+ setInterval(function(){
+      if(timeLeft <= 0) {
+         clearInterval(timeLeft= 0)
+                 
+         //  window.location.href = "gameOver.html";
+     }
+     timeLeftDisplay.innerHTML = timeLeft;
+     timeLeft -=1;
+ },1000)
+
+ }
+ countDown()
 
 }
  
