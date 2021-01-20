@@ -10,6 +10,8 @@ const answersIndicatorContainer = document.querySelector(".answers-indicator");
 const qCountQuiz = parseInt(localStorage.getItem('quizLen'));
 const quizBox = document.querySelector(".quiz-box");
 const resultBox= document.querySelector(".resultbox");
+const highScoreBox= document.querySelector(".high-score-box");
+
 
 // define variables for javascript functions to use
 let questionCounter = 0;  //variable to hold count of how many questions we have
@@ -23,7 +25,7 @@ let attemps = 0;
 // the push method adds a new item to an array
 function setAvailableQuestions(){
     const totalQuestion = quiz.length;
-    for (let i=0; i<qCountQuiz; i++){
+    for (let i=0; i<totalQuestion; i++){
 
         availableQuestion.push(quiz[i])
 
@@ -180,7 +182,26 @@ function quizOver(){
 
 }
 
+
+var quizUser = document.querySelector(".quiz-User");
+var quizUserScore = document.querySelector(".quiz-User-Score");
+
+function goToHighscore(){
+
+     resultBox.classList.add("hide");
+     highScoreBox.classList.remove("hide");
+
+
+      var scores = JSON.parse(localStorage.getItem("user"));
+
+      console.log(scores);
+      quizUserScore.innerHTML = scores.ctot;
+}
+
+
 function quizResult(){
+
+let userInitials = ""
 
 resultBox.querySelector(".total-questions").innerHTML = qCountQuiz;
 resultBox.querySelector(".total-attempt").innerHTML = attemps;
@@ -189,8 +210,30 @@ resultBox.querySelector(".total-wrong").innerHTML = attemps - correctAnswers;
 const percentage = (correctAnswers/qCountQuiz)*100;
 resultBox.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
 resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + qCountQuiz;
+resultBox.querySelector("#initials").value = userInitials;
+
+//!!!!!!!!!!!!!!! function runs before initials are entered.... 
 
 
+  // create user object from submission
+  var user = {
+        qtot: qCountQuiz,
+        atot: attemps,
+        ctot: correctAnswers,
+        wtot: attemps - correctAnswers,
+        perc: percentage.toFixed(2) + "%",
+        stot: correctAnswers + " / " + qCountQuiz,
+        init: userInitials
+       
+    // firstName: firstNameInput.value.trim(),
+    // lastName: lastNameInput.value.trim(),
+    // email: emailInput.value.trim(),
+    // password: passwordInput.value.trim()
+  };
+
+  // set new submission to local storage 
+  localStorage.setItem("user", JSON.stringify(user));
+  
 }
 
 function resetQuiz(){
@@ -216,10 +259,9 @@ const startBtn = document.querySelector('#startQuiz');
 // console.log(radioSelection);
 // }
 
+function getQCount (){
 
- function startQuiz() {  
-        
-            var checkRadio = document.querySelector('input[name="options"]:checked').value; 
+     var checkRadio = document.querySelector('input[name="options"]:checked').value; 
                
             if(checkRadio != null) { 
                 const qCount = checkRadio.value;
@@ -234,27 +276,36 @@ const startBtn = document.querySelector('#startQuiz');
         } 
 
 
+//############# STARTING POINT ################
+
+ function startQuiz() {  
+        
+        setAvailableQuestions();
+        // second we will call getnewquestion function
+        getNewQuestion();
+        // to create indicators of answers
+        answersIndicator();
+
+}
+   
+
 // startBtn.addEventListener("click", startQuiz())
 
 
 
 
+window.onload = function()
 
-
-
-
-
-
-window.onload = function(){
+{
     //First set all questions in available question array
-setAvailableQuestions();
-// second we will call getnewquestion function
-getNewQuestion();
-// to create indicators of answers
-answersIndicator();
+    setAvailableQuestions();
+    // second we will call getnewquestion function
+    getNewQuestion();
+    // to create indicators of answers
+    answersIndicator();
 
 }
-
+ 
 // var startButton = document.getElementById("starQuiz");
 
 // startButton.addEventListener('click', ){
