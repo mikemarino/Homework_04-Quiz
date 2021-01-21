@@ -12,6 +12,8 @@ const quizBox = document.querySelector(".quiz-box");
 const resultBox = document.querySelector(".resultbox");
 const highScoreBox = document.querySelector(".high-score-box");
 const nextBox = document.querySelector(".next-Box");
+
+const scoreShow = document.querySelector(".score-show")
 // const correctIndicator = document.querySelector(".correct");
 // const wrongIndicator = document.querySelector(".wrong");
 
@@ -42,6 +44,8 @@ function setAvailableQuestions() {
 
 // set question number, question text and answer options to html
 function getNewQuestion() {
+
+    
     // set total number of questions 
     questionNumber.innerHTML = (questionCounter + 1) + " of " + qCountQuiz;
 
@@ -125,6 +129,7 @@ function getResult(element) {
         // if the answer is incorret then show teh correct option by showing the green opion
         //add the indicator to correct mark
         updateAnswerIndicator("wrong");
+        timeLeft -= 7;
         const optionLen = optionContainer.children.length;
         for (let i = 0; i < optionLen; i++) {
             if (parseInt(optionContainer.children[i].id) === currentQuestion.answer) {
@@ -151,7 +156,7 @@ function answersIndicator() {
     const totalQuestion = quiz.length;
     for (let i = 0; i < totalQuestion; i++) {
         const indicator = document.createElement("div");
-        answersIndicatorContainer.appendChild(indicator)
+        answersIndicatorContainer.appendChild(indicator);
 
     }
 }
@@ -196,13 +201,64 @@ function goToHighscore() {
     resultBox.classList.add("hide");
     highScoreBox.classList.remove("hide");
 
-    storeResults()
+    storeResults();
+    postScore();
+
+
+    // var scores = JSON.parse(localStorage.getItem("user"));
+    // //console.log(savedScores);
+    // // console.log(scores);
+    // console.log(JSON.parse(localStorage.getItem("user")).length)
+
+
+
+    // quizUser.innerHTML = scores.init;
+    // quizUserScore.innerHTML = scores.ctot;
+}
+
+function postScore() {
+
+    const allScores = JSON.parse(localStorage.getItem("user")).length;
+
+    // var scores = JSON.parse(localStorage.getItem("user"));
     var scores = JSON.parse(localStorage.getItem("user"));
 
-    console.log(scores);
-    quizUser.innerHTML = scores.init;
-    quizUserScore.innerHTML = scores.ctot;
+    scores.forEach(function (user, index) {
+        const postName = document.createElement("div");
+        postName.classList.add("col-sm-3", "col-md-3", "col-lg-3", "d-flex", "justify-content-center")
+        postName.textContent = user.init;
+        scoreShow.appendChild(postName);
+
+
+        const postCorrect = document.createElement("div");
+        postCorrect.classList.add("col-sm-3", "col-md-3", "col-lg-3", "d-flex", "justify-content-center")
+        postCorrect.textContent = user.ctot;
+        scoreShow.appendChild(postCorrect);
+
+        const postTime = document.createElement("div");
+        postTime.classList.add("col-sm-3", "col-md-3", "col-lg-3", "d-flex", "justify-content-center")
+        postTime.textContent = user.time;
+        scoreShow.appendChild(postTime);
+
+        const postScore = document.createElement("div");
+        postScore.classList.add("col-sm-3", "col-md-3", "col-lg-3", "d-flex", "justify-content-center")
+        postScore.textContent = user.scor;
+        scoreShow.appendChild(postScore);
+        // console.log(user.ctot)
+    })
+
 }
+
+
+
+// for (let i = 0; i < allScores; i++) {
+
+//      var scores = JSON.parse(localStorage.getItem("user"));
+//     const postScore = document.createElement("div");
+//     postScore.classList.add("col-sm-6", "col-md-6", "col-lg-6", "d-flex", "justify-content-center")
+//     postScore.textContent = scores.ctot;
+//     scoreShow.appendChild(postScore);
+// }}
 
 
 function quizResult() {
@@ -220,14 +276,29 @@ function quizResult() {
 
 }
 
-var userInitials = resultBox.querySelector("#initials");
-
 function storeResults() {
     // create user object from submission
     const percentage = (correctAnswers / qCountQuiz) * 100;
 
     var userInitials = resultBox.querySelector("#initials");
-    var user = {
+
+    // var user = {
+    //     qtot: qCountQuiz,
+    //     atot: attemps,
+    //     ctot: correctAnswers,
+    //     wtot: attemps - correctAnswers,
+    //     perc: percentage.toFixed(2) + "%",
+    //     stot: correctAnswers + " / " + qCountQuiz,
+    //     time: timeLeft,
+    //     init: userInitials.value
+    // }
+    // firstName: firstNameInput.value.trim(),
+    // lastName: lastNameInput.value.trim(),
+    // email: emailInput.value.trim(),
+    // password: passwordInput.value.trim()
+
+    var savedScores = JSON.parse(localStorage.getItem('user')) || [];
+    savedScores.push({
         qtot: qCountQuiz,
         atot: attemps,
         ctot: correctAnswers,
@@ -235,24 +306,28 @@ function storeResults() {
         perc: percentage.toFixed(2) + "%",
         stot: correctAnswers + " / " + qCountQuiz,
         time: timeLeft,
-        init: userInitials.value
+        init: userInitials.value,
+        scor: correctAnswers * timeLeft
 
-        // firstName: firstNameInput.value.trim(),
-        // lastName: lastNameInput.value.trim(),
-        // email: emailInput.value.trim(),
-        // password: passwordInput.value.trim()
-    };
+
+        // playerInitals: playerInitials.value,
+        // userScore: userScore
+    });
+
+
+    localStorage.setItem('user', JSON.stringify(savedScores));
 
     // set new submission to local storage 
-    localStorage.setItem("user", JSON.stringify(user));
+    // localStorage.setItem("user", JSON.stringify(user));
 
-}
+};
 
 function resetQuiz() {
     // reset variables for javascript functions to use
     correctAnswers = 0;
     attemps = 0;
     questionCounter = 0; //variable to hold count of how many questions we have
+    timeLeft = 60;
 }
 
 function tryAgainQuiz() {
@@ -308,37 +383,37 @@ function startQuiz() {
 // startBtn.addEventListener("click", startQuiz())
 
 
-    //################# TIMER ########################
+//################# TIMER ########################
 
-    const timeLeftDisplay = document.querySelector('#time-left');
-    let timeLeft = 60;
-    let timerEl = document.getElementById('countdown');
+const timeLeftDisplay = document.querySelector('#time-left');
+let timeLeft = 60;
+let timerEl = document.getElementById('countdown');
 
-    const score = document.querySelector('.time-left-score');
+const score = document.querySelector('.time-left-score');
 
-    function countDown() {
+function countDown() {
 
-        setInterval(function () {
+    setInterval(function () {
 
-            // if (questionCounter === qCountQuiz) {
+        // if (questionCounter === qCountQuiz) {
 
-            clearInterval(questionCounter === qCountQuiz)
-            score.innerHTML = timeLeft;
+        clearInterval(questionCounter === qCountQuiz)
+        score.innerHTML = timeLeft;
 
-            // } else
-            if (timeLeft <= 0) {
+        // } else
+        if (timeLeft <= 0) {
 
-                clearInterval(timeLeft = 0)
+            clearInterval(timeLeft = 0)
 
-                //  window.location.href = "gameOver.html";
-            }
-            timeLeftDisplay.innerHTML = timeLeft;
-            timeLeft -= 1;
-        }, 1000)
+            //  window.location.href = "gameOver.html";
+        }
+        timeLeftDisplay.innerHTML = timeLeft;
+        timeLeft -= 1;
+    }, 1000)
 
-    }
+}
 
-window.onload = function (){
+window.onload = function () {
 
     //First set all questions in available question array
     setAvailableQuestions();
