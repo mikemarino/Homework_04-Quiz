@@ -23,7 +23,7 @@ Instructions
 
 ## Installation
 
-This is a simple HTML/CSS/JS webstite designed to run in a browser.  The code for this website can be viewed directly in Github. Click on  <a href = "https://mikemarino.github.io/Homework_03-Javascript_Password_Generator/">this link</a> to view the completed website in the browser.  This link is uses Github pages.
+This is a simple HTML/CSS/JS webstite designed to run in a browser.  The code for this website can be viewed directly in Github. Click on  <a href = "https://github.com/mikemarino/Homework_04-Quiz">this link</a> to view the completed website in the browser.  This link is uses Github pages.
 
 ## Usage
 
